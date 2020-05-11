@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--发现页面的页面布局文件-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <RelativeLayout
+        android:id="@+id/layout_register_header"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#008CC9">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发现新设备"
+            android:textSize="30sp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="#ffffff"/>
+
+
+
+    </RelativeLayout>
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="10dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <Button
+
+        android:id="@+id/btn_find"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="20dp"
+        android:background="@mipmap/btn"
+        android:text="扫描"
+        android:textSize="20sp" />
+</LinearLayout>
+
+
+
+</LinearLayout>

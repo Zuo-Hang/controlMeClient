@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--扫描后的设置 页面布局-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activitys.MainActivity"
+    android:background="@mipmap/bg"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设置我的设备"
+        android:textSize="36sp"
+        android:textColor="#ffffff"
+        android:layout_marginTop="70dp"/>
+
+    <!--
+    android:src=""      指定前景图片资源
+    android:background=""   设置背景
+    -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/add_photo" />
+
+    <!--<ImageButton-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@mipmap/add_photo"/>-->
+    <!--
+    android:inputType       输入类型
+    textPassword    密码
+    number          只能正整数
+    numberSigned    整数
+    numberDecimal   小数
+    -->
+    <ProgressBar
+        android:id="@+id/pro_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:visibility="invisible"
+        android:layout_margin="10dp"/>
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:hint="设备名称"
+        android:gravity="center"
+        android:textColorHint="#cccccc"
+        android:background="@mipmap/border"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="25dp"
+        android:hint="设备类型"
+        android:gravity="center"
+        android:textColorHint="#cccccc"
+        android:background="@mipmap/border"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="25dp"
+        android:hint="生产厂家"
+        android:gravity="center"
+        android:textColorHint="#cccccc"
+        android:background="@mipmap/border"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="40dp"
+        android:background="@mipmap/btn"
+        android:text="添加到我的设备"/>
+</LinearLayout>
