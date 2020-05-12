@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplicationnumba.R;
 import com.example.myapplicationnumba.base.MyApplication;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 闪屏页
  */
@@ -26,6 +29,8 @@ public class SplashActivity extends AppCompatActivity {
         // 隐藏应用程序的标题栏，即当前activity的标题栏
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+        logger.info("启动了主界面");
         MyApplication.addDestroyActivity(this, "SplashActivity");
         mHandler.postDelayed(new Runnable() {
             @Override
