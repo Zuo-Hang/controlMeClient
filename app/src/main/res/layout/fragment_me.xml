@@ -10,7 +10,7 @@
         android:id="@+id/layout_me_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#008CC9">
+        android:background="#8BC34A">
 
         <Button
             android:id="@+id/btn_login"

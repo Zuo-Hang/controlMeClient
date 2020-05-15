@@ -5,17 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.myapplicationnumba.R;
 import com.example.myapplicationnumba.activitys.fragment.FindFragment;
 import com.example.myapplicationnumba.activitys.fragment.ManagementFragment;
 import com.example.myapplicationnumba.activitys.fragment.MeFragment;
 import com.example.myapplicationnumba.base.MyApplication;
-
 /**
  * 主界面：
  * 包含了三个按钮，点击按钮可以切换到不同的fragment
@@ -102,5 +103,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .commit();
                 break;
         }
+    }
+
+    /**
+     * 双击退出程序
+     */
+    //--------------使用onKeyDown()干掉他--------------
+
+    //记录用户首次点击返回键的时间
+    private long firstTime=0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK && event.getAction()==KeyEvent.ACTION_DOWN){
+            if (System.currentTimeMillis()-firstTime>2000){
+                Toast.makeText(MainActivity.this,"再按一次退出程序--->onKeyDown",Toast.LENGTH_SHORT).show();
+                firstTime=System.currentTimeMillis();
+            }else{
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

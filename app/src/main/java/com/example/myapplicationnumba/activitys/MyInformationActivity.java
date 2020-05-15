@@ -39,6 +39,7 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
         switch (view.getId()){
             case  R.id.head_shot://头像
                 Intent login=new Intent(this, ChooseOrTakePictureActivity.class);
+//                Intent login=new Intent(this, ChooseOrTakePictureActivity.class);
                 startActivity(login);
                 break;
             case  R.id.menu_find://发现

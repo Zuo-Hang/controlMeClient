@@ -15,18 +15,15 @@
         <activity android:name=".activitys.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.LoginActivity" />
+        <activity android:name=".activitys.LoginActivity" android:launchMode="singleTask" />
         <activity android:name=".activitys.RegisterActivity" />
         <activity android:name=".activitys.SettingDeviceActivity" />
         <activity android:name=".activitys.MyInformationActivity" />
         <activity android:name=".activitys.ChooseOrTakePictureActivity" />
-        <activity android:name=".activitys.NetworkPictureActivity" >
-
-        </activity>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="huan"

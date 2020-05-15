@@ -10,7 +10,7 @@
         android:id="@+id/layout_register_header"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#008CC9"
+        android:background="#8BC34A"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 

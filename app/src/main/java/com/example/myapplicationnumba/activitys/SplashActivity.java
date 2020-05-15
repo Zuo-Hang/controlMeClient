@@ -7,10 +7,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.myapplicationnumba.R;
 import com.example.myapplicationnumba.base.MyApplication;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -27,10 +27,10 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation 'org.greenrobot:greendao:3.3.0' // add greendao library
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation("com.squareup.okhttp3:okhttp:4.6.0")//依赖okhttp
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     compile 'com.alibaba:fastjson:1.2.68'
     compile 'com.alibaba:fastjson:1.1.71.android'
-    compile 'com.qiniu:qiniu-android-sdk:7.5.0'
     // For control over item selection of both touch and mouse driven selection
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'com.github.tony19:logback-android:2.0.0'

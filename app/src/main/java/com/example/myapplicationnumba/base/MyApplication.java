@@ -3,15 +3,11 @@ package com.example.myapplicationnumba.base;
 import android.app.Activity;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
-
-
 import com.example.myapplicationnumba.entity_model.DaoMaster;
 import com.example.myapplicationnumba.entity_model.DaoSession;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 /**
  * 全局应用 其中包含:
  * 1.数据库的创建和会话的管理
