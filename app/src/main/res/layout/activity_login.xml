@@ -41,7 +41,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
         <EditText
-            android:id="@+id/edt_username"
+            android:id="@+id/edt_login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入登录用户名/手机号/邮箱"
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#D8DDE1"
-            android:layout_below="@+id/edt_username"
+            android:layout_below="@+id/edt_login_username"
             android:layout_marginTop="10dp"></View>
     </RelativeLayout>
 
@@ -66,7 +66,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
         <EditText
-            android:id="@+id/edt_pwd"
+            android:id="@+id/edt_login_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入登录密码"
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#D8DDE1"
-            android:layout_below="@+id/edt_pwd"
+            android:layout_below="@+id/edt_login_pwd"
             android:layout_marginTop="10dp"></View>
     </RelativeLayout>
 

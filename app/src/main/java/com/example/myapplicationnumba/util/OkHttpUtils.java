@@ -24,7 +24,7 @@ public class OkHttpUtils  {
      * 2.对于电器的控制请求
      * @param url
      */
-    private void response(final String url) {
+    public void response(final String url) {
         Request.Builder builder = new Request.Builder();
         builder.url(url);
         Request request = builder.build();
@@ -86,7 +86,7 @@ public class OkHttpUtils  {
      * @param url
      * @param file
      */
-    private void post(final String url, File file) {
+    public void post(final String url, File file) {
         Request.Builder builder = new Request.Builder();
         builder.url(url);
         builder.post(RequestBody.create(MediaType.parse("image/png"),file));

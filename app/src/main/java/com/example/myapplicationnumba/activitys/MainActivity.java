@@ -2,9 +2,11 @@ package com.example.myapplicationnumba.activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -17,6 +19,9 @@ import com.example.myapplicationnumba.activitys.fragment.FindFragment;
 import com.example.myapplicationnumba.activitys.fragment.ManagementFragment;
 import com.example.myapplicationnumba.activitys.fragment.MeFragment;
 import com.example.myapplicationnumba.base.MyApplication;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 /**
  * 主界面：
  * 包含了三个按钮，点击按钮可以切换到不同的fragment
@@ -24,6 +29,7 @@ import com.example.myapplicationnumba.base.MyApplication;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String TAG = "MainActivity-xx";
     protected LinearLayout mMenuMain;
     protected LinearLayout mMenuFind;
     protected LinearLayout mMenuMe;
@@ -117,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK && event.getAction()==KeyEvent.ACTION_DOWN){
             if (System.currentTimeMillis()-firstTime>2000){
-                Toast.makeText(MainActivity.this,"再按一次退出程序--->onKeyDown",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"再按一次退出控我",Toast.LENGTH_SHORT).show();
                 firstTime=System.currentTimeMillis();
             }else{
                 finish();
@@ -126,5 +132,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    //从二维码页面扫描返回的处理流程
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Log.d(TAG, "Cancelled");
+                //Log.d(getClass().getName(), "Cancelled");
+                Toast.makeText(this, "扫描结果为空", Toast.LENGTH_LONG).show();
+            } else {
+                Log.d(TAG, "Scanned: " + result.getContents());
+                //Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
+                Intent setDevice = new Intent(this, SettingDeviceActivity.class);
+                startActivity(setDevice);
+            }
+        }
     }
 }

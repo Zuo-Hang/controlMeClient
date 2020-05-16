@@ -24,6 +24,10 @@
         <activity android:name=".activitys.SettingDeviceActivity" />
         <activity android:name=".activitys.MyInformationActivity" />
         <activity android:name=".activitys.ChooseOrTakePictureActivity" />
+        <activity android:name=".activitys.ScanQRCodeActivity"
+            android:screenOrientation="fullSensor"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:replace="screenOrientation"></activity>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="huan"

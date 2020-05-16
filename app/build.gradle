@@ -18,6 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
@@ -31,6 +35,10 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     compile 'com.alibaba:fastjson:1.2.68'
     compile 'com.alibaba:fastjson:1.1.71.android'
+    // https://mvnrepository.com/artifact/com.google.zxing/core
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
+    compile group: 'com.google.zxing', name: 'core', version: '3.3.3'
+    compile('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
     // For control over item selection of both touch and mouse driven selection
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'com.github.tony19:logback-android:2.0.0'

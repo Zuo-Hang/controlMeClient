@@ -24,17 +24,26 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="@mipmap/bg"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <Button
-
         android:id="@+id/btn_find"
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:textColor="#cccccc"
-        android:text="扫描周边设备"
+        android:text="WIFI扫描周边设备"
+        android:background="@mipmap/border"
+        android:textSize="20sp" />
+    <Button
+        android:id="@+id/scanning_code"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#cccccc"
+        android:text="扫描设备二维码添加"
         android:background="@mipmap/border"
         android:textSize="20sp" />
 </LinearLayout>
