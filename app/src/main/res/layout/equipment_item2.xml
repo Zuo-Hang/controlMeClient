@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 设备管理列表中的一个item布局 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/item_equipmentLists_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="#333333"
+            android:text="设备名称"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/item_equipmentLists_manufacturers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="#666666"
+            android:text="生产厂家"
+            android:layout_weight="1"/>
+</LinearLayout>
+

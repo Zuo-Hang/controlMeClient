@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplicationnumba">
+    <!-- 设置权限信息 -->
+    <!-- 存储权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".base.MyApplication"
@@ -11,7 +17,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activitys.MainActivity"></activity>
+        <activity
+            android:name=".activitys.FindResultActivity"
+            android:label="@string/title_activity_find_result"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activitys.findActivity"
+            android:label="@string/title_activity_find"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activitys.MainActivity" />
         <activity android:name=".activitys.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,15 +33,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.LoginActivity" android:launchMode="singleTask" />
+        <activity
+            android:name=".activitys.LoginActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activitys.RegisterActivity" />
         <activity android:name=".activitys.SettingDeviceActivity" />
         <activity android:name=".activitys.MyInformationActivity" />
         <activity android:name=".activitys.ChooseOrTakePictureActivity" />
-        <activity android:name=".activitys.ScanQRCodeActivity"
+        <activity xmlns:tools="http://schemas.android.com/tools"
+            android:name=".activitys.ScanQRCodeActivity"
             android:screenOrientation="fullSensor"
-            xmlns:tools="http://schemas.android.com/tools"
-            tools:replace="screenOrientation"></activity>
+            tools:replace="screenOrientation" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="huan"
@@ -37,13 +54,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
-
-    <!--设置权限信息-->
-    <!--存储权限-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--网络权限-->
-    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

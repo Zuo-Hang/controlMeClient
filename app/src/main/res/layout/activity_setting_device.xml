@@ -55,13 +55,13 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
-        <EditText
+        <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:hint="设备名称"
+            android:text="设备名称"
             android:gravity="center"
             android:textColorHint="#cccccc"
             android:background="@mipmap/border"/>
@@ -109,13 +109,14 @@
                 android:text="其他"
                 android:id="@+id/rb4" />
         </RadioGroup>
-        <EditText
+        <TextView
+            android:id="@+id/equManufacturer"
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="25dp"
-            android:hint="生产厂家"
+            android:text="生产厂家"
             android:gravity="center"
             android:textColorHint="#cccccc"
             android:background="@mipmap/border"/>

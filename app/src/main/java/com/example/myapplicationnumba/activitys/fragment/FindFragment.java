@@ -16,12 +16,16 @@ import androidx.fragment.app.Fragment;
 import com.example.myapplicationnumba.R;
 import com.example.myapplicationnumba.activitys.ScanQRCodeActivity;
 import com.example.myapplicationnumba.activitys.SettingDeviceActivity;
+import com.example.myapplicationnumba.activitys.findActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.net.DatagramSocket;
+import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
+
 public class FindFragment extends Fragment {
-
-
     //定义寻找按钮
     protected Button btnFind;
     //扫描二维码按钮
@@ -37,16 +41,14 @@ public class FindFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         btnFind = (Button) getView().findViewById(R.id.btn_find);
-        btnFind.setOnClickListener((view)->{
-                //寻找新的设备
-                Intent setDevice = new Intent(getActivity(), SettingDeviceActivity.class);
-                startActivity(setDevice);
+        btnFind.setOnClickListener((view) -> {
+            //寻找新的设备
+            Intent intent = new Intent(getActivity(), findActivity.class);
+            startActivity(intent);
         });
         scanningCode = getView().findViewById(R.id.scanning_code);
         scanningCode.setOnClickListener((view) -> {
             new IntentIntegrator(getActivity()).setCaptureActivity(ScanQRCodeActivity.class).initiateScan();
         });
     }
-
-
 }

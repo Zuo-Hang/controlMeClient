@@ -15,6 +15,11 @@ import com.example.myapplicationnumba.R;
 import com.example.myapplicationnumba.util.LoginAndRegistrationUserUtil;
 import com.example.myapplicationnumba.util.OkHttpUtils;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+
 /**
  * 注册页面
  */
@@ -74,6 +79,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if(psw.equals(pswAg)){
             Toast.makeText(this, "密码相同", Toast.LENGTH_SHORT).show();
         }
+//        MediaType JSON = MediaType.parse("application/json;charset=utf-8");
+//        OkHttpClient client = new OkHttpClient();
+//        Request.Builder builder = new Request.Builder(JSON,josn);
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .post(body)
+//                .build();
+//        client.newCall(request).enqueue(callback);
         okHttpUtils=new OkHttpUtils();
         StringBuilder stringBuilder=new StringBuilder("http://10.100.52.107:8080/user/ins?");
         stringBuilder.append("phoneNumber="+s);

@@ -14,9 +14,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,8 @@ import androidx.core.content.FileProvider;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplicationnumba.R;
+import com.example.myapplicationnumba.util.HttpUtil;
+import com.example.myapplicationnumba.util.ImageUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,14 +42,30 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 /**
- * 从本地获取图片功能
+ * 从本地获取图片并上传至服务器功能
  */
 public class ChooseOrTakePictureActivity extends AppCompatActivity implements View.OnClickListener{
     private Uri imageUri;
     private ImageView imageView;
     private Button buttonChoose;
     private Button buttonTake;
+
+    private static final int REQUEST_CHOOSE_IMAGE = 0x01;
+    private static final int REQUEST_WRITE_EXTERNAL_PERMISSION_GRANT = 0xff;
+    private TextView photoPath;
+    private ImageView photo;
+    String image_path;
+    private File file;
+    Uri uri;
+    private final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
 
     /**
      * 创建视图时
@@ -214,7 +234,46 @@ public class ChooseOrTakePictureActivity extends AppCompatActivity implements Vi
                 else handImageLow(data);
             }
         }
+        if (requestCode == REQUEST_CHOOSE_IMAGE && resultCode == RESULT_OK) {
+            //获取图片的uri
+            uri= data.getData();
+            //图片的绝对路径
+            image_path = ImageUtils.getRealFilePath(this, uri);
+            Bitmap bitmap = BitmapFactory.decodeFile(image_path);
+            photo.setImageBitmap(bitmap);
+            file = new File(image_path);
+            //选取完图片后调用上传方法，将图片路径放入参数中
+            sendStudentInfoToServer(file);
+        }
     }
+
+    /**
+     * 网络上传图片
+     * @param file
+     */
+    private void sendStudentInfoToServer( File file) {
+        //接口地址
+        String urlAddress = "http://116.62.130.5:80/sjb/portal/login/img";
+        if (file != null && file.exists()) {
+            MultipartBody.Builder builder = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("files", "img" + "_" + System.currentTimeMillis() + ".jpg",
+                            RequestBody.create(MEDIA_TYPE_PNG, file));
+            HttpUtil.sendMultipart(urlAddress, builder.build(), new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String result = response.body().string();
+                    Log.e("---", "onResponse: 成功上传图片之后服务器的返回数据：" + result);
+                    //result就是图片服务器返回的图片地址。
+                }
+            });
+        }
+    }
+
 
     //安卓版本大于4.4的处理方法
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
