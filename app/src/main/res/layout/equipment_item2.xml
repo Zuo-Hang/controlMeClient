@@ -24,5 +24,6 @@
             android:textColor="#666666"
             android:text="生产厂家"
             android:layout_weight="1"/>
+
 </LinearLayout>
 

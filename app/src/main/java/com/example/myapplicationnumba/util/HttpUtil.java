@@ -1,46 +1,50 @@
 package com.example.myapplicationnumba.util;
 
+import java.io.IOException;
+
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class HttpUtil {
-
     private static OkHttpClient okHttpClient = new OkHttpClient();
-
     private static Request.Builder builder = new Request.Builder();
 
     /**
-     *      * 发送OkHttp GET 请求的方法
-     *      *
-     *      * @param url      url形式参数
-     *      * @param callback 回调
-     *      
+     * 发送OkHttp POST 请求的方法
+     * @param address  地址
+     * @param formBodyBuild  post请求体
+     * @return
      */
-
-
-    public static void sendOkHttpGetRequest(String url, Callback callback) {
-        Request request = builder.url(url).build();
-        okHttpClient.newCall(request).enqueue(callback);
+    public static Response sendOkHttpPostRequest(String address,FormBody.Builder formBodyBuild) {
+        Request request = builder
+                .url(address)
+                .post(formBodyBuild.build()).build();
+        try {
+            Response response = okHttpClient.newCall(request).execute();
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-
     /**
-     *      * 发送OkHttp POST 请求的方法
-     *      *
-     *      * @param urlAddress  url地址
-     *      * @param requestBody 请求体
-     *      * @param callback    回调
-     *      
+     * 发送Get请求
+     * @param url
+     * @return
      */
-
-
-    public static void sendOkHttpPostRequest(String urlAddress, RequestBody requestBody, Callback callback) {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder().url(urlAddress).post(requestBody).build();
-        okHttpClient.newCall(request).enqueue(callback);
+    public static Response sendOkHttpGetRequest(String url) {
+        Request request = builder.url(url).build();
+        Response response=null;
+        try {
+            response = okHttpClient.newCall(request).execute();
+        }catch (Exception e){
+        }
+        return response;
     }
 
 
@@ -69,4 +73,27 @@ public class HttpUtil {
                 .build();
         client.newCall(request).enqueue(callback);
     }
+
+    public static Response sendOkHttpRequest(String address) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(address)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
+
+
+
+
+
 }

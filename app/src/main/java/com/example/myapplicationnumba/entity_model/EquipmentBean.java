@@ -17,9 +17,9 @@ public class EquipmentBean implements Serializable {
     private Integer equTypes;
     //设备状态（开启或关闭）
     private Integer equStatus;
-
+    //设备ip地址
     private String equIp;
-
+    //设备备注
     private String equNotes;
 
     public EquipmentBean() {

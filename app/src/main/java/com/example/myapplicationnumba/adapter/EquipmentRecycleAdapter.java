@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplicationnumba.R;
+import com.example.myapplicationnumba.entity_model.EquipmentBean;
 import com.example.myapplicationnumba.entity_model.EquipmentModel;
 
 import java.util.ArrayList;
@@ -19,13 +20,14 @@ import java.util.List;
  */
 public class EquipmentRecycleAdapter extends RecyclerView.Adapter<EquipmentRecycleAdapter.myViewHodler> {
     private Context context;
-    private List<EquipmentModel> goodsEntityList;
+    //private List<EquipmentModel> goodsEntityList;
+    private ArrayList<EquipmentBean> equipmentBeanArrayList;
 
     //创建构造函数
-    public EquipmentRecycleAdapter(Context context, ArrayList<EquipmentModel> goodsEntityList) {
+    public EquipmentRecycleAdapter(Context context, ArrayList<EquipmentBean> equipmentBeanArrayList) {
         //将传递过来的数据，赋值给本地变量
         this.context = context;//上下文
-        this.goodsEntityList = goodsEntityList;//实体类数据ArrayList
+        this.equipmentBeanArrayList=equipmentBeanArrayList;//实体类数据ArrayList
     }
 
     /**
@@ -51,9 +53,9 @@ public class EquipmentRecycleAdapter extends RecyclerView.Adapter<EquipmentRecyc
     @Override
     public void onBindViewHolder(myViewHodler holder, int position) {
         //根据点击位置绑定数据
-        EquipmentModel data = goodsEntityList.get(position);
-        holder.mItemGoodsName.setText(data.getName());//获取实体类中的name字段并设置
-        holder.mItemGoodsPrice.setText(data.getManufacturer());//获取实体类中的price字段并设置
+        EquipmentBean data = equipmentBeanArrayList.get(position);
+        holder.mItemGoodsName.setText(data.getEquName());//获取实体类中的设备名并设置
+        holder.mItemGoodsPrice.setText(data.getEquManufacturer());//获取实体类中的生产厂家并设置
 
     }
 
@@ -64,7 +66,7 @@ public class EquipmentRecycleAdapter extends RecyclerView.Adapter<EquipmentRecyc
      */
     @Override
     public int getItemCount() {
-        return goodsEntityList.size();
+        return equipmentBeanArrayList.size();
     }
 
     //自定义viewhodler
@@ -87,7 +89,7 @@ public class EquipmentRecycleAdapter extends RecyclerView.Adapter<EquipmentRecyc
                     //Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
                     //此处回传点击监听事件
                     if(onItemClickListener!=null){
-                        onItemClickListener.OnItemClick(v, goodsEntityList.get(getLayoutPosition()));
+                        onItemClickListener.OnItemClick(v, equipmentBeanArrayList.get(getLayoutPosition()));
                     }
                 }
             });
@@ -105,7 +107,7 @@ public class EquipmentRecycleAdapter extends RecyclerView.Adapter<EquipmentRecyc
          * @param view 点击的item的视图
          * @param data 点击的item的数据
          */
-        public void OnItemClick(View view, EquipmentModel data);
+        public void OnItemClick(View view, EquipmentBean data);
     }
 
     //需要外部访问，所以需要设置set方法，方便调用
@@ -119,8 +121,8 @@ public class EquipmentRecycleAdapter extends RecyclerView.Adapter<EquipmentRecyc
      * 更改数据源，并显示
      * @param dataSource
      */
-    public void setDataSource(List<EquipmentModel> dataSource) {
-        this.goodsEntityList = dataSource;
+    public void setDataSource(ArrayList<EquipmentBean> dataSource) {
+        this.equipmentBeanArrayList = dataSource;
         notifyDataSetChanged();
     }
 

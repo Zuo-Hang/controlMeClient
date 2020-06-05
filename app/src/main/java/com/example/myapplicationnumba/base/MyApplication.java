@@ -5,6 +5,9 @@ import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import com.example.myapplicationnumba.entity_model.DaoMaster;
 import com.example.myapplicationnumba.entity_model.DaoSession;
+import com.example.myapplicationnumba.entity_model.SysUser;
+import com.example.myapplicationnumba.util.SaveUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -17,6 +20,8 @@ public class MyApplication extends Application {
 
     public static DaoSession mSession;
     private static Map<String, Activity> destroyMap = new HashMap<>();
+    public static SaveUtil saveUtil;
+    public static SysUser sysUser;
 
     @Override
     public void onCreate() {

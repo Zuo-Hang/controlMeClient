@@ -15,19 +15,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplicationnumba.R;
 import com.example.myapplicationnumba.adapter.EquipmentRecycleAdapter;
-import com.example.myapplicationnumba.db.GreenDaoManager;
-import com.example.myapplicationnumba.entity_model.EquipmentModel;
+import com.example.myapplicationnumba.base.MyApplication;
+import com.example.myapplicationnumba.entity_model.EquipmentBean;
+import com.example.myapplicationnumba.entity_model.SysUser;
+import com.example.myapplicationnumba.util.HttpUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+
+import okhttp3.Response;
 
 public class ManagementFragment extends Fragment {
-
-    private GreenDaoManager dbManager;
     private View view;//定义view用来设置fragment的layout
     public RecyclerView mCollectRecyclerView;//定义RecyclerView
-    //定义以goodsentity实体类为对象的数据集合
-    private ArrayList<EquipmentModel> equipmentEntities = new ArrayList<EquipmentModel>();
+    //定义以EquipmentBean实体类为对象的数据集合
+    private ArrayList<EquipmentBean> equipmentBeanArrayList = new ArrayList<EquipmentBean>();
     //自定义recyclerveiw的适配器
     private EquipmentRecycleAdapter mCollectRecyclerAdapter;
 
@@ -41,8 +48,7 @@ public class ManagementFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_equipment, container, false);
         //对recycleview进行配置
         initRecyclerView();
-        //模拟数据
-        init();
+        //从服务端获取数据并显示
         initData();
         return view;
     }
@@ -53,36 +59,43 @@ public class ManagementFragment extends Fragment {
         textView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dbManager.insertEquipments();
+                //dbManager.insertEquipments();
             }
         });
         textView2= (TextView) getView().findViewById(R.id.all);
         textView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<EquipmentModel> equipmentModels = dbManager.queryEquipments();
-                notifyAdapter(equipmentModels);
+                //List<EquipmentModel> equipmentModels = dbManager.queryEquipments();
+                //notifyAdapter(equipmentModels);
             }
         });
     }
-    private void init () {
-        dbManager = new GreenDaoManager(getActivity());
-        //initView();
-    }
-
     /**
      * TODO 初始化数据
      */
     private void initData() {
-        //更改为json的数据源
-        for (int i=0;i<10;i++){
-            EquipmentModel goodsEntity=new EquipmentModel();
-            goodsEntity.setName("模拟数据"+i);
-            goodsEntity.setManufacturer("100"+i);
-            equipmentEntities.add(goodsEntity);
-        }
+        String url = "http://192.168.43.198:8080/getAll";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String responseData = null;
+                Response response = HttpUtil.sendOkHttpGetRequest(url);
+                try {
+                    responseData = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //将字符串转jsonObj
+                JsonObject asJsonObject = new JsonParser().parse(responseData).getAsJsonObject();
+                JsonElement data = asJsonObject.get("data");
+                Gson gson = new Gson();
+                ArrayList<EquipmentBean> ps = gson.fromJson(data, new TypeToken<ArrayList<EquipmentBean>>(){}.getType());
+                equipmentBeanArrayList=ps;
+                notifyAdapter(equipmentBeanArrayList);
+            }
+        }).start();
     }
-
     /**
      * TODO 对recycleview进行配置
      */
@@ -90,7 +103,7 @@ public class ManagementFragment extends Fragment {
         //获取RecyclerView
         mCollectRecyclerView=(RecyclerView)view.findViewById(R.id.collect_recyclerView);
         //创建adapter
-        mCollectRecyclerAdapter = new EquipmentRecycleAdapter(getActivity(), equipmentEntities);
+        mCollectRecyclerAdapter = new EquipmentRecycleAdapter(getActivity(), equipmentBeanArrayList);
         //给RecyclerView设置adapter
         mCollectRecyclerView.setAdapter(mCollectRecyclerAdapter);
         //设置layoutManager,可以设置显示效果，是线性布局、grid布局，还是瀑布流布局
@@ -100,9 +113,9 @@ public class ManagementFragment extends Fragment {
         mCollectRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         //RecyclerView中没有item的监听事件，需要自己在适配器中写一个监听事件的接口。参数根据自定义
         mCollectRecyclerAdapter.setOnItemClickListener(new EquipmentRecycleAdapter.OnItemClickListener() {
+
             @Override
-            public void OnItemClick(View view, EquipmentModel data) {
-                //此处进行监听事件的业务处理
+            public void OnItemClick(View view, EquipmentBean data) {
                 Toast.makeText(getActivity(),"我是item",Toast.LENGTH_SHORT).show();
             }
         });
@@ -111,7 +124,7 @@ public class ManagementFragment extends Fragment {
     /**
      * 改变展示数据
      */
-    private void notifyAdapter (List<EquipmentModel> dataSource) {
+    private void notifyAdapter (ArrayList<EquipmentBean> dataSource) {
         mCollectRecyclerAdapter.setDataSource(dataSource);
     }
 

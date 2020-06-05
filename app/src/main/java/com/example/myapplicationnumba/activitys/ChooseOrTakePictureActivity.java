@@ -10,8 +10,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -33,14 +31,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplicationnumba.R;
 import com.example.myapplicationnumba.util.HttpUtil;
-import com.example.myapplicationnumba.util.ImageUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -57,15 +51,12 @@ public class ChooseOrTakePictureActivity extends AppCompatActivity implements Vi
     private ImageView imageView;
     private Button buttonChoose;
     private Button buttonTake;
+    private Button buttonSave;
 
-    private static final int REQUEST_CHOOSE_IMAGE = 0x01;
-    private static final int REQUEST_WRITE_EXTERNAL_PERMISSION_GRANT = 0xff;
-    private TextView photoPath;
-    private ImageView photo;
-    String image_path;
     private File file;
     Uri uri;
     private final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+    private String path;
 
     /**
      * 创建视图时
@@ -76,9 +67,10 @@ public class ChooseOrTakePictureActivity extends AppCompatActivity implements Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_or_take_picture_activity);
         imageView = findViewById(R.id.imageView);
-        glideLoadImage("https://android-me.oss-cn-beijing.aliyuncs.com/MyApplicationNumba/spbg.png");
+        glideLoadImage("https://android-me.oss-cn-beijing.aliyuncs.com/2_img_1591187738571.jpg");
         buttonChoose = findViewById(R.id.button);
         buttonTake=findViewById(R.id.button2);
+        buttonSave=findViewById(R.id.button3);
         registrationEvent();
     }
 
@@ -105,81 +97,8 @@ public class ChooseOrTakePictureActivity extends AppCompatActivity implements Vi
 //                用于展示图片的ImageView
                 .into(imageView);
     }
-    /**
-     * 加载网络图片
-     * @param img 网络图片地址
-     */
-    private void loadUrlImage (final String img) {
-//        开启子线程，用于进行网络请求
-        new Thread(){
-            @Override
-            public void run() {
-//                创建消息对象，用于通知handler
-                Message message = new Message();
-                try {
-//                    根据传入的路径生成对应的URL
-                    URL url = new URL(img);
-//                    创建连接
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-//                    设置请求方式为GET
-                    httpURLConnection.setRequestMethod("GET");
-//                    获取返回码
-                    int code = httpURLConnection.getResponseCode();
-//                    当返回码为200时，表示请求成功
-                    if (code == 200) {
-//                        获取数据流
-                        InputStream inputStream = httpURLConnection.getInputStream();
-//                        利用位图工程根据数据流生成对应的位图对象
-                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//                        利用message对象将生成的bitmap携带到handler
-                        message.obj = bitmap;
-//                        成功的状态码
-                        message.what = 200;
-                    } else {
-//                        失败的状态码
-                        message.what = code;
 
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-//                    当出现异常的时候，状态码设置为 -1
-                    message.what = -1;
-                } finally {
-//                    通知handler
-                    handler.sendMessage(message);
-                }
-            }
-        }.start();
-    }
-
-
-    /**
-     *
-     */
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-//                当获取到成功的状态码时执行
-                case 200:
-//                    获取携带的bitmap
-                    Bitmap bitmap = (Bitmap) msg.obj;
-//                    imageView展示
-                    imageView.setImageBitmap(bitmap);
-                    break;
-//                 当请求失败获取出现异常的时候回调
-                default:
-//                    展示加载失败的图片
-                    imageView.setImageResource(R.mipmap.loader_error);
-//                    打印失败的状态码
-                    Toast.makeText(ChooseOrTakePictureActivity.this, "code: " + msg.what , Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-    };
-
-
+//——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
     /**
      * 注册点击事件
@@ -187,6 +106,7 @@ public class ChooseOrTakePictureActivity extends AppCompatActivity implements Vi
     private void registrationEvent() {
         buttonChoose.setOnClickListener(this);
         buttonTake.setOnClickListener(this);
+        buttonSave.setOnClickListener(this);
     }
 
 
@@ -234,31 +154,21 @@ public class ChooseOrTakePictureActivity extends AppCompatActivity implements Vi
                 else handImageLow(data);
             }
         }
-        if (requestCode == REQUEST_CHOOSE_IMAGE && resultCode == RESULT_OK) {
-            //获取图片的uri
-            uri= data.getData();
-            //图片的绝对路径
-            image_path = ImageUtils.getRealFilePath(this, uri);
-            Bitmap bitmap = BitmapFactory.decodeFile(image_path);
-            photo.setImageBitmap(bitmap);
-            file = new File(image_path);
-            //选取完图片后调用上传方法，将图片路径放入参数中
-            sendStudentInfoToServer(file);
-        }
     }
-
+//————————————————————————————————————————————————————————————————————————————————
     /**
      * 网络上传图片
      * @param file
      */
     private void sendStudentInfoToServer( File file) {
         //接口地址
-        String urlAddress = "http://116.62.130.5:80/sjb/portal/login/img";
+        String urlAddress = "http://192.168.43.198:8080/addheadshot";
         if (file != null && file.exists()) {
             MultipartBody.Builder builder = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("files", "img" + "_" + System.currentTimeMillis() + ".jpg",
-                            RequestBody.create(MEDIA_TYPE_PNG, file));
+                            RequestBody.create(MEDIA_TYPE_PNG, file))
+                    .addFormDataPart("userId","2");
             HttpUtil.sendMultipart(urlAddress, builder.build(), new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -273,12 +183,12 @@ public class ChooseOrTakePictureActivity extends AppCompatActivity implements Vi
             });
         }
     }
-
+//——————————————————————————————————————————————————————————————————————————————————————————————
 
     //安卓版本大于4.4的处理方法
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void handImage(Intent data) {
-        String path = null;
+        path = null;
         Uri uri = data.getData();
         //根据不同的uri进行不同的解析
         if (DocumentsContract.isDocumentUri(this, uri)) {
@@ -348,6 +258,9 @@ public class ChooseOrTakePictureActivity extends AppCompatActivity implements Vi
             case  R.id.button2://拍照按钮
                 take();
                 break;
+            case R.id.button3:
+                sendStudentInfoToServer(new File(path));
+                break;
         }
 
     }
@@ -357,29 +270,30 @@ public class ChooseOrTakePictureActivity extends AppCompatActivity implements Vi
      */
     private void take() {
         //创建一个File对象。getExternalCacheDir()获取应用的缓存目录，outputImage.jpg是照片名称
-        File outputImage = new File(getExternalCacheDir(), "outputImage.jpg");
-        try {
+        File outputImage = new File(getExternalCacheDir(),"outputImage.jpg");
+        try{
             //创建一个空文件
             outputImage.createNewFile();
-        } catch (IOException e) {
+        }catch (IOException e){
             e.printStackTrace();
         }
 
         //不同的安卓版本对用不同的获取Uri的方法
-        if (Build.VERSION.SDK_INT >= 24) {
-            imageUri = FileProvider.getUriForFile(ChooseOrTakePictureActivity.this, "huan", outputImage);
-        } else {
+        if (Build.VERSION.SDK_INT>=24){
+            imageUri =FileProvider.getUriForFile(this,"huan",outputImage);
+        }else{
             imageUri = Uri.fromFile(outputImage);
         }
 
         //启动相机的对应Activity
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, 1);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+        startActivityForResult(intent,1);
     }
 
     /**
      * 打开相册逻辑
+     * OK
      */
     private void choose() {
         //动态申请权限
@@ -391,6 +305,4 @@ public class ChooseOrTakePictureActivity extends AppCompatActivity implements Vi
             openAlbum();
         }
     }
-
-
 }
