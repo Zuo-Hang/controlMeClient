@@ -1,5 +1,6 @@
 package com.example.myapplicationnumba.activitys.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplicationnumba.R;
+import com.example.myapplicationnumba.activitys.control.DeviceInformationActivity;
 import com.example.myapplicationnumba.adapter.EquipmentRecycleAdapter;
-import com.example.myapplicationnumba.base.MyApplication;
-import com.example.myapplicationnumba.entity_model.EquipmentBean;
-import com.example.myapplicationnumba.entity_model.SysUser;
+import com.example.myapplicationnumba.entity.EquipmentBean;
 import com.example.myapplicationnumba.util.HttpUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -117,6 +117,12 @@ public class ManagementFragment extends Fragment {
             @Override
             public void OnItemClick(View view, EquipmentBean data) {
                 Toast.makeText(getActivity(),"我是item",Toast.LENGTH_SHORT).show();
+                //传递数据给下一个视图
+                Intent intent = new Intent(getActivity(), DeviceInformationActivity.class);
+//                //Intent intent = new Intent (  );
+//                intent.putExtra("data", (Serializable) data);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
     }

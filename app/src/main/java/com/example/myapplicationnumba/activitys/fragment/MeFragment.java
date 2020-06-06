@@ -15,9 +15,9 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.myapplicationnumba.activitys.LoginActivity;
+import com.example.myapplicationnumba.activitys.my.LoginActivity;
 import com.example.myapplicationnumba.R;
-import com.example.myapplicationnumba.activitys.MyInformationActivity;
+import com.example.myapplicationnumba.activitys.my.MyInformationActivity;
 import com.example.myapplicationnumba.activitys.my.ContactTheDeveloperActivity;
 import com.example.myapplicationnumba.activitys.my.MyQrCodeActivity;
 import com.example.myapplicationnumba.activitys.my.SecurityCenterActivity;
@@ -31,6 +31,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     protected ImageView mBtnLogin;
     private LinearLayout myInfoTirm;
     private String url = "https://android-me.oss-cn-beijing.aliyuncs.com/2_img_1591187738571.jpg";
+    private TextView myNickNames;
 
     @Nullable
     @Override
@@ -45,9 +46,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         //加载头像
         //url =url + MyApplication.sysUser.getHeadShot();
         glideLoadImage(url);
-        TextView viewById = getView().findViewById(R.id.my_nick_names);
+        myNickNames = getView().findViewById(R.id.my_nick_names);
         //System.out.println("++++++++++++++++++++"+MyApplication.sysUser);
-        viewById.setText(MyApplication.sysUser.getUserName());
+        //myNickNames.setText(MyApplication.sysUser.getUserName());
     }
 
     /**

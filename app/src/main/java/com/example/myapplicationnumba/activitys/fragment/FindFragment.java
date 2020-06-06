@@ -2,28 +2,19 @@ package com.example.myapplicationnumba.activitys.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplicationnumba.R;
-import com.example.myapplicationnumba.activitys.ScanQRCodeActivity;
-import com.example.myapplicationnumba.activitys.SettingDeviceActivity;
-import com.example.myapplicationnumba.activitys.findActivity;
+import com.example.myapplicationnumba.activitys.find.ScanQRCodeActivity;
+import com.example.myapplicationnumba.activitys.find.findActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
-import java.net.DatagramSocket;
-import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
 
 public class FindFragment extends Fragment {
     //定义寻找按钮

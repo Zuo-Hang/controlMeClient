@@ -19,15 +19,15 @@
         android:theme="@style/AppTheme"
         >
         <activity
-            android:name=".activitys.FindResultActivity"
+            android:name=".activitys.find.FindResultActivity"
             android:label="@string/title_activity_find_result"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".activitys.findActivity"
+            android:name=".activitys.find.findActivity"
             android:label="@string/title_activity_find"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activitys.MainActivity" />
-        <activity android:name=".activitys.SplashActivity">
+        <activity android:name=".activitys.base.MainActivity" />
+        <activity android:name=".activitys.base.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,19 +35,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activitys.LoginActivity"
+            android:name=".activitys.my.LoginActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activitys.RegisterActivity" />
-        <activity android:name=".activitys.SettingDeviceActivity" />
-        <activity android:name=".activitys.MyInformationActivity" />
+        <activity android:name=".activitys.my.RegisterActivity" />
+        <activity android:name=".activitys.find.SettingDeviceActivity" />
+        <activity android:name=".activitys.my.MyInformationActivity" />
         <activity android:name=".activitys.my.ContactTheDeveloperActivity" />
         <activity android:name=".activitys.my.MyQrCodeActivity" />
         <activity android:name=".activitys.my.SecurityCenterActivity" />
         <activity android:name=".activitys.my.SettingsActivity" />
         <activity android:name=".activitys.my.TipsActivity" />
-        <activity android:name=".activitys.ChooseOrTakePictureActivity" />
+        <activity android:name=".activitys.my.ChooseOrTakePictureActivity" />
+        <activity android:name=".activitys.control.DeviceInformationActivity" />
+        <activity android:name=".activitys.control.ManagementEquipmentActivity" />
         <activity xmlns:tools="http://schemas.android.com/tools"
-            android:name=".activitys.ScanQRCodeActivity"
+            android:name=".activitys.find.ScanQRCodeActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
 

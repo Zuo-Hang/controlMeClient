@@ -1,4 +1,4 @@
-package com.example.myapplicationnumba.activitys;
+package com.example.myapplicationnumba.activitys.base;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,30 +15,23 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.myapplicationnumba.R;
+import com.example.myapplicationnumba.Server.UserService;
+import com.example.myapplicationnumba.Server.impl.UserServiceImpl;
+import com.example.myapplicationnumba.activitys.find.SettingDeviceActivity;
 import com.example.myapplicationnumba.activitys.fragment.FindFragment;
 import com.example.myapplicationnumba.activitys.fragment.ManagementFragment;
 import com.example.myapplicationnumba.activitys.fragment.MeFragment;
 import com.example.myapplicationnumba.base.MyApplication;
-import com.example.myapplicationnumba.entity_model.SysUser;
-import com.example.myapplicationnumba.entity_model.User;
-import com.example.myapplicationnumba.util.HttpUtil;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.example.myapplicationnumba.entity.SysUser;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
-import java.io.IOException;
-
-import okhttp3.Response;
 
 /**
  * 主界面：
  * 包含了三个按钮，点击按钮可以切换到不同的fragment
  */
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public  class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity-xx";
     protected LinearLayout mMenuMain;
@@ -47,12 +40,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected ManagementFragment collectFragment = new ManagementFragment();//管理
     protected FindFragment mFindFragmenr = new FindFragment();//发现
     protected MeFragment mMeFragment = new MeFragment();//我的
-    private User user;
+    private UserService userService;
+    private SysUser sysUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getUser();
+        //初始化用户信息
+        userService = new UserServiceImpl();
+        userService.getUser();
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -126,15 +122,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
+    /**
+     * 在其他视图跳转到当前视图的时候调用
+     */
     @Override
     protected void onResume() {
-        user = MyApplication.saveUtil.SearchUserInformation();
-        System.out.println(user);
+        UserServiceImpl userService = new UserServiceImpl();
+        userService.getUser();
+        sysUser = MyApplication.saveUtil.SearchUserInformation();
+        System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkkk----------"+ sysUser);
         super.onResume();
     }
 
@@ -161,7 +157,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onKeyDown(keyCode, event);
     }
 
-    //从二维码页面扫描返回的处理流程
+    /**
+     * 从二维码页面扫描返回的处理流程
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -179,28 +180,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
-    //--------------------------------------------------------------------------------------------------------------------
-    public void getUser() {
-        String url = "http://192.168.43.198:8080/getUser?id=2";
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String responseData = null;
-                Response response = HttpUtil.sendOkHttpGetRequest(url);
-                try {
-                    responseData = response.body().string();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                //将字符串转jsonObj
-                JsonObject asJsonObject = new JsonParser().parse(responseData).getAsJsonObject();
-                JsonElement data = asJsonObject.get("data");
-                Gson gson = new Gson();
-                MyApplication.sysUser= gson.fromJson(data, SysUser.class);
-            }
-        }).start();
-    }
-
-
 }

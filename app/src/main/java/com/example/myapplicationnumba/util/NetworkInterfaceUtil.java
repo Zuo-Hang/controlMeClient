@@ -1,4 +1,4 @@
-package com.example.myapplicationnumba.activitys;
+package com.example.myapplicationnumba.util;
 
 /**
  * @Author:zuohang
@@ -10,7 +10,10 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-public class NetworkInterfaceTest {
+/**
+ * 获取本机网卡信息
+ */
+public class NetworkInterfaceUtil {
 
     public static void main(String[] args) throws Exception {
         // 获得本机的所有网络接口

@@ -29,7 +29,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     // add recyclerview library
     implementation "androidx.recyclerview:recyclerview:1.1.0"
-    implementation 'org.greenrobot:greendao:3.3.0' // add greendao library
+    //implementation 'org.greenrobot:greendao:3.3.0' // add greendao library
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation("com.squareup.okhttp3:okhttp:4.6.0")//依赖okhttp
     implementation 'com.google.android.material:material:1.0.0'

@@ -1,4 +1,4 @@
-package com.example.myapplicationnumba.activitys;
+package com.example.myapplicationnumba.activitys.find;
 
 import android.os.Bundle;
 import android.view.KeyEvent;

@@ -1,20 +1,16 @@
 package com.example.myapplicationnumba.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplicationnumba.R;
-import com.example.myapplicationnumba.activitys.SettingDeviceActivity;
-import com.example.myapplicationnumba.entity_model.EquipmentBean;
+import com.example.myapplicationnumba.entity.EquipmentBean;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class FindResultRecycleAdapter extends RecyclerView.Adapter<FindResultRecycleAdapter.myViewHodler> {

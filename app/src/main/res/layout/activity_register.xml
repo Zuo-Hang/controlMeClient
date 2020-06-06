@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg"
-    tools:context="com.example.myapplicationnumba.activitys.RegisterActivity">
+    tools:context="com.example.myapplicationnumba.activitys.my.RegisterActivity">
 
     <!--头部-->
     <RelativeLayout

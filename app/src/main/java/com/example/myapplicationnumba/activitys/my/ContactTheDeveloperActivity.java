@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplicationnumba.R;
 
+/**
+ * 反馈信息页面
+ */
 public class ContactTheDeveloperActivity extends AppCompatActivity {
 
     private EditText editText;

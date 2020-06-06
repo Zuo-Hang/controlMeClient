@@ -9,11 +9,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplicationnumba.R;
-import com.example.myapplicationnumba.entity_model.EquipmentBean;
-import com.example.myapplicationnumba.entity_model.EquipmentModel;
+import com.example.myapplicationnumba.entity.EquipmentBean;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 设备管理循环视图的适配器

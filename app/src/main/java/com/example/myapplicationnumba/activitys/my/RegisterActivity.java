@@ -1,4 +1,4 @@
-package com.example.myapplicationnumba.activitys;
+package com.example.myapplicationnumba.activitys.my;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,12 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplicationnumba.R;
 import com.example.myapplicationnumba.util.LoginAndRegistrationUserUtil;
-import com.example.myapplicationnumba.util.OkHttpUtils;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 
 /**
  * 注册页面
@@ -31,7 +25,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText passwordAgain;
     private Button btnSubmit;
     private TextView directAccess;
-    private OkHttpUtils okHttpUtils;
+    //private OkHttpUtils okHttpUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +81,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 //                .post(body)
 //                .build();
 //        client.newCall(request).enqueue(callback);
-        okHttpUtils=new OkHttpUtils();
-        StringBuilder stringBuilder=new StringBuilder("http://10.100.52.107:8080/user/ins?");
-        stringBuilder.append("phoneNumber="+s);
-        stringBuilder.append("&password="+psw);
-        okHttpUtils.response(stringBuilder.toString());
+//        okHttpUtils=new OkHttpUtils();
+//        StringBuilder stringBuilder=new StringBuilder("http://10.100.52.107:8080/user/ins?");
+//        stringBuilder.append("phoneNumber="+s);
+//        stringBuilder.append("&password="+psw);
+//        okHttpUtils.response(stringBuilder.toString());
     }
 }

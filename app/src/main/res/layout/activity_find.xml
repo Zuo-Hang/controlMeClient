@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".activitys.findActivity">
+    tools:context=".activitys.find.findActivity">
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/iv"
         android:visibility="visible"

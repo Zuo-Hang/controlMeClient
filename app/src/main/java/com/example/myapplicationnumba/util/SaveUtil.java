@@ -1,10 +1,9 @@
 package com.example.myapplicationnumba.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.myapplicationnumba.entity_model.User;
+import com.example.myapplicationnumba.entity.SysUser;
 
 /**
  * 保存登陆信息工具类
@@ -29,15 +28,14 @@ public class SaveUtil {
         return commit;
     }
 
-    public User SearchUserInformation() {
+    public SysUser SearchUserInformation() {
         String account = sharedPreferences.getString("account", "");
         String password = sharedPreferences.getString("password", "");
         System.out.println(account);
         System.out.println(password);
-        User user = new User();
-        user.setPhoneNumber(account);
-        user.setPassword(password);
-
-        return user;
+        SysUser sysUser = new SysUser();
+        sysUser.setPhoneNumber(account);
+        sysUser.setPassword(password);
+        return sysUser;
     }
 }

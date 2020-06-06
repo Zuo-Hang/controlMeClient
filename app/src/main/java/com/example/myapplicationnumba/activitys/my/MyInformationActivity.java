@@ -1,4 +1,4 @@
-package com.example.myapplicationnumba.activitys;
+package com.example.myapplicationnumba.activitys.my;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplicationnumba.R;
 import com.example.myapplicationnumba.base.MyApplication;
 
+/**
+ * 显示个人信息的页面
+ */
 public class MyInformationActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView headShot;
     private Button setBut;

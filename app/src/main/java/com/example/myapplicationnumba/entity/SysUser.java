@@ -1,4 +1,4 @@
-package com.example.myapplicationnumba.entity_model;
+package com.example.myapplicationnumba.entity;
 
 import java.io.Serializable;
 import java.util.Date;
