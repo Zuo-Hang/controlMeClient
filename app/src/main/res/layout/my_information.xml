@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical|right">
 
-            <TextView
+            <EditText
                 android:id="@+id/nicknames"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,6 +88,7 @@
                 android:layout_marginRight="10dp"
                 android:text="ttttttt"
                 android:textColor="#858484"
+                android:background="#FFFFFF"
                 android:textSize="24sp" />
         </LinearLayout>
     </LinearLayout>
@@ -170,7 +171,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical|right">
 
-            <TextView
+            <EditText
                 android:id="@+id/phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -178,6 +179,7 @@
                 android:layout_marginRight="10dp"
                 android:text="12345678910"
                 android:textColor="#858484"
+                android:background="#FFFFFF"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
@@ -201,7 +203,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical|right">
 
-            <TextView
+            <EditText
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -209,6 +211,7 @@
                 android:layout_marginRight="10dp"
                 android:text="123@163.com"
                 android:textColor="#858484"
+                android:background="#FFFFFF"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>

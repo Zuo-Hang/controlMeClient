@@ -1,11 +1,15 @@
 package com.example.myapplicationnumba.Server.impl;
 
+import android.app.Activity;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.myapplicationnumba.Server.UserService;
+import com.example.myapplicationnumba.activitys.base.MainActivity;
 import com.example.myapplicationnumba.activitys.my.LoginActivity;
+import com.example.myapplicationnumba.activitys.my.MyInformationActivity;
+import com.example.myapplicationnumba.activitys.my.RegisterActivity;
 import com.example.myapplicationnumba.base.MyApplication;
 import com.example.myapplicationnumba.entity.SysUser;
 import com.example.myapplicationnumba.util.HttpUtil;
@@ -42,7 +46,7 @@ public class UserServiceImpl implements UserService {
      * 获取当前登陆用户
      */
     @Override
-    public void getUser() {
+    public void getUser(MainActivity activity ) {
         String url = "http://192.168.43.198:8080/getUser?id=4";
         new Thread(new Runnable() {
             @Override
@@ -58,8 +62,14 @@ public class UserServiceImpl implements UserService {
                 JsonObject asJsonObject = new JsonParser().parse(responseData).getAsJsonObject();
                 JsonElement data = asJsonObject.get("data");
                 Gson gson = new Gson();
-                MyApplication.sysUser= gson.fromJson(data, SysUser.class);
+
+                    MyApplication.sysUser= gson.fromJson(data, SysUser.class);
+
+
                 System.out.println(MyApplication.sysUser);
+                Message message = new Message();
+                message.what = 1;
+                activity.handler.sendMessage(message);
             }
         }).start();
     }
@@ -151,6 +161,110 @@ public class UserServiceImpl implements UserService {
                             //result就是图片服务器返回的图片地址。
                         }
                     });
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 注册功能
+     * @param userName 用户名
+     * @param passWord 密码
+     */
+    @Override
+    public void registerUser(RegisterActivity activity, String userName, String passWord) {
+        FormBody.Builder formBodyBuild = new FormBody.Builder();
+        formBodyBuild.add("userName",userName);//此处添加所需要提交的参数
+        formBodyBuild.add("password",passWord);//此处添加所需要提交的参数
+        String urlAddress = "http://192.168.43.198:8080/registerUser";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response response = HttpUtil.sendOkHttpPostRequest(urlAddress,formBodyBuild);
+                    Headers headers = response.headers();
+                    //获取到cookies
+                    List<String> cookies=headers.values("Set-Cookie");
+                    if (response != null) {
+                        String responseData = response.body().string();
+                        Map<String, Object> map = null;
+                        //使用Gson解析服务器返回的数据
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<Map<String, Object>>() {
+                        }.getType();
+                        map = gson.fromJson(responseData, type);
+                        String msg = map.get("errorMsg").toString();
+                        //判断登录成功还是失败，并向主线程传递数据
+                        if ("成功".equals(msg)) {
+                            Message message = new Message();
+                            message.what = 1;
+                            message.obj = msg;
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(activity.getBaseContext(), "注册成功", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            MyApplication.saveUtil.saveUserInformation(userName, passWord);
+
+                            //User user = MyApplication.saveUtil.SearchUserInformation();
+                            //System.out.println(user);
+                            activity.handler.sendMessage(message);
+                        } else {
+                            Message message = new Message();
+                            message.what = 1;
+                            message.obj = msg;
+                            activity.handler.sendMessage(message);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 更改用户信息
+     * @param activity
+     * @param user
+     */
+    @Override
+    public void upDateUser(MyInformationActivity activity, SysUser user) {
+        FormBody.Builder formBodyBuild = new FormBody.Builder();
+        System.out.println(user);
+        formBodyBuild.add("id",user.getId().toString());//此处添加所需要提交的参数
+        formBodyBuild.add("userName",user.getUserName());//此处添加所需要提交的参数
+        formBodyBuild.add("password",user.getPassword());//此处添加所需要提交的参数
+        formBodyBuild.add("email",user.getEmail());//此处添加所需要提交的参数
+        String urlAddress = "http://192.168.43.198:8080/updateuser";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response response = HttpUtil.sendOkHttpPostRequest(urlAddress,formBodyBuild);
+                    Headers headers = response.headers();
+                    //获取到cookies
+                    List<String> cookies=headers.values("Set-Cookie");
+                    if (response != null) {
+                        String responseData = response.body().string();
+                        Map<String, Object> map = null;
+                        //使用Gson解析服务器返回的数据
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<Map<String, Object>>() {
+                        }.getType();
+                        map = gson.fromJson(responseData, type);
+                        String msg = map.get("errorMsg").toString();
+                        //判断登录成功还是失败，并向主线程传递数据
+                        if ("成功".equals(msg)) {
+                            Message message = new Message();
+                            message.what = 1;
+                            message.obj = msg;
+                            activity.handler.sendMessage(message);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();

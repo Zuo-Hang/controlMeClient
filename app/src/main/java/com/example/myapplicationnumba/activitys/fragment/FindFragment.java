@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.myapplicationnumba.R;
 import com.example.myapplicationnumba.activitys.find.ScanQRCodeActivity;
 import com.example.myapplicationnumba.activitys.find.findActivity;
+import com.example.myapplicationnumba.base.MyApplication;
 import com.google.zxing.integration.android.IntentIntegrator;
 
 public class FindFragment extends Fragment {
@@ -32,8 +33,10 @@ public class FindFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         btnFind = (Button) getView().findViewById(R.id.btn_find);
+        MyApplication.destroyActivity("MainActivity");
         btnFind.setOnClickListener((view) -> {
             //寻找新的设备
+            //MyApplication.addDestroyActivity(this.getActivity(), "MainActivity");
             Intent intent = new Intent(getActivity(), findActivity.class);
             startActivity(intent);
         });

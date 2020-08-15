@@ -2,6 +2,8 @@ package com.example.myapplicationnumba.activitys.my;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +14,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplicationnumba.R;
+import com.example.myapplicationnumba.Server.UserService;
+import com.example.myapplicationnumba.Server.impl.UserServiceImpl;
+import com.example.myapplicationnumba.base.MyApplication;
 import com.example.myapplicationnumba.util.LoginAndRegistrationUserUtil;
 
 /**
@@ -54,14 +59,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 this.finish();
                 break;
             case R.id.btn_submit://注册按钮
-                checkInput();
+               checkInput();
                 break;
             case R.id.direct_access://定位到登陆界面
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
         }
     }
 
-    private void checkInput() {
+    private boolean checkInput() {
         String s = phoneNumber.getText().toString();
         String psw=password.getText().toString();
         String pswAg=passwordAgain.getText().toString();
@@ -69,22 +74,24 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (!b) {
             Toast.makeText(this, "输入的电话号码错误，请重新输入", Toast.LENGTH_SHORT).show();
             phoneNumber.setText("");
+            return false;
         }
         if(psw.equals(pswAg)){
             Toast.makeText(this, "密码相同", Toast.LENGTH_SHORT).show();
+            UserService userService = new UserServiceImpl();
+            userService.registerUser(this,s,psw);
+            return true;
         }
-//        MediaType JSON = MediaType.parse("application/json;charset=utf-8");
-//        OkHttpClient client = new OkHttpClient();
-//        Request.Builder builder = new Request.Builder(JSON,josn);
-//        Request request = new Request.Builder()
-//                .url(url)
-//                .post(body)
-//                .build();
-//        client.newCall(request).enqueue(callback);
-//        okHttpUtils=new OkHttpUtils();
-//        StringBuilder stringBuilder=new StringBuilder("http://10.100.52.107:8080/user/ins?");
-//        stringBuilder.append("phoneNumber="+s);
-//        stringBuilder.append("&password="+psw);
-//        okHttpUtils.response(stringBuilder.toString());
+        return false;
     }
+    public Handler handler=new Handler() {
+        public void handleMessage (Message msg){
+            switch (msg.what) {
+                case 1:
+                    //当为1时，代表查询成功。更改信息
+                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 }

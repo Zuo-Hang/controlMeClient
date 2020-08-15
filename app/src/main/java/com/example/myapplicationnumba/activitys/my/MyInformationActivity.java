@@ -2,10 +2,14 @@ package com.example.myapplicationnumba.activitys.my;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplicationnumba.R;
+import com.example.myapplicationnumba.Server.impl.UserServiceImpl;
+import com.example.myapplicationnumba.activitys.base.MainActivity;
+import com.example.myapplicationnumba.activitys.find.SettingDeviceActivity;
 import com.example.myapplicationnumba.base.MyApplication;
+import com.example.myapplicationnumba.entity.SysUser;
 
 /**
  * 显示个人信息的页面
@@ -22,12 +30,13 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
     private ImageView headShot;
     private Button setBut;
     private ImageView returnBut;
-    private TextView nicknames;
+    private EditText nicknames;
     private ImageView sex;
     private TextView accountNumber;
-    private TextView email;
-    private TextView phoneNumber;
-    private String url="https://android-me.oss-cn-beijing.aliyuncs.com/";
+    private EditText email;
+    private EditText phoneNumber;
+    private SysUser user;
+    private String url = "https://android-me.oss-cn-beijing.aliyuncs.com/";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,19 +46,21 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
     }
 
     public void initView() {
+        this.user = MyApplication.sysUser;
         headShot = (ImageView) this.findViewById(R.id.head_shot);
         setBut = (Button) this.findViewById(R.id.set_but);
+        setBut.setOnClickListener(this);
         returnBut = (ImageView) this.findViewById(R.id.return_but);
-        nicknames = (TextView) this.findViewById(R.id.nicknames);
+        nicknames = (EditText) this.findViewById(R.id.nicknames);
         sex = (ImageView) this.findViewById(R.id.sex);
         accountNumber = (TextView) this.findViewById(R.id.account_number);
-        email = (TextView) findViewById(R.id.email);
-        phoneNumber = (TextView) findViewById(R.id.phone_number);
+        email = (EditText) findViewById(R.id.email);
+        phoneNumber = (EditText) findViewById(R.id.phone_number);
         headShot.setOnClickListener(this);
         setBut.setOnClickListener(this);
         returnBut.setOnClickListener(this);
         //加载头像
-        url =url +MyApplication.sysUser.getHeadShot();
+        url = url + MyApplication.sysUser.getHeadShot();
         glideLoadImage(url);
         //加载昵称
         nicknames.setText(MyApplication.sysUser.getUserName());
@@ -87,8 +98,28 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.menu_me://我的
                 break;
+            case R.id.set_but://批量更改信息
+                user.setUserName(nicknames.getText().toString());
+                user.setEmail(email.getText().toString());
+                user.setPhoneNumber(phoneNumber.getText().toString());
+                UserServiceImpl userService = new UserServiceImpl();
+                userService.upDateUser(this, user);
+                break;
         }
     }
+
+    public Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    Toast.makeText(MyInformationActivity.this, "更改个人信息成功", Toast.LENGTH_LONG).show();
+                    break;
+                case 2:
+
+            }
+
+        }
+    };
 
 
     private void glideLoadImage(String img) {

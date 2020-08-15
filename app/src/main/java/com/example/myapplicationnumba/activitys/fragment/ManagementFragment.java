@@ -34,7 +34,7 @@ public class ManagementFragment extends Fragment {
     private View view;//定义view用来设置fragment的layout
     public RecyclerView mCollectRecyclerView;//定义RecyclerView
     //定义以EquipmentBean实体类为对象的数据集合
-    private ArrayList<EquipmentBean> equipmentBeanArrayList = new ArrayList<EquipmentBean>();
+    public ArrayList<EquipmentBean> equipmentBeanArrayList = new ArrayList<EquipmentBean>();
     //自定义recyclerveiw的适配器
     private EquipmentRecycleAdapter mCollectRecyclerAdapter;
 
@@ -48,8 +48,6 @@ public class ManagementFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_equipment, container, false);
         //对recycleview进行配置
         initRecyclerView();
-        //从服务端获取数据并显示
-        initData();
         return view;
     }
         @Override
@@ -70,31 +68,6 @@ public class ManagementFragment extends Fragment {
                 //notifyAdapter(equipmentModels);
             }
         });
-    }
-    /**
-     * TODO 初始化数据
-     */
-    private void initData() {
-        String url = "http://192.168.43.198:8080/getAll";
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String responseData = null;
-                Response response = HttpUtil.sendOkHttpGetRequest(url);
-                try {
-                    responseData = response.body().string();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                //将字符串转jsonObj
-                JsonObject asJsonObject = new JsonParser().parse(responseData).getAsJsonObject();
-                JsonElement data = asJsonObject.get("data");
-                Gson gson = new Gson();
-                ArrayList<EquipmentBean> ps = gson.fromJson(data, new TypeToken<ArrayList<EquipmentBean>>(){}.getType());
-                equipmentBeanArrayList=ps;
-                notifyAdapter(equipmentBeanArrayList);
-            }
-        }).start();
     }
     /**
      * TODO 对recycleview进行配置
@@ -119,9 +92,7 @@ public class ManagementFragment extends Fragment {
                 Toast.makeText(getActivity(),"我是item",Toast.LENGTH_SHORT).show();
                 //传递数据给下一个视图
                 Intent intent = new Intent(getActivity(), DeviceInformationActivity.class);
-//                //Intent intent = new Intent (  );
-//                intent.putExtra("data", (Serializable) data);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("data",data);
                 startActivity(intent);
             }
         });
@@ -130,7 +101,7 @@ public class ManagementFragment extends Fragment {
     /**
      * 改变展示数据
      */
-    private void notifyAdapter (ArrayList<EquipmentBean> dataSource) {
+    public void notifyAdapter (ArrayList<EquipmentBean> dataSource) {
         mCollectRecyclerAdapter.setDataSource(dataSource);
     }
 

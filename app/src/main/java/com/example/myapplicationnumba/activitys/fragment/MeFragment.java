@@ -31,7 +31,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     protected ImageView mBtnLogin;
     private LinearLayout myInfoTirm;
     private String url = "https://android-me.oss-cn-beijing.aliyuncs.com/2_img_1591187738571.jpg";
-    private TextView myNickNames;
+    public TextView myNickNames;
 
     @Nullable
     @Override
@@ -43,12 +43,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-        //加载头像
-        //url =url + MyApplication.sysUser.getHeadShot();
         glideLoadImage(url);
         myNickNames = getView().findViewById(R.id.my_nick_names);
-        //System.out.println("++++++++++++++++++++"+MyApplication.sysUser);
-        //myNickNames.setText(MyApplication.sysUser.getUserName());
     }
 
     /**

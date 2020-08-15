@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入登录用户名/手机号/邮箱"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:background="@null"
             android:layout_marginTop="10dp"/>
         <View
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:hint="请输入登录密码"
             android:inputType="textPassword"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:background="@null"
             android:layout_marginTop="10dp"/>
         <View

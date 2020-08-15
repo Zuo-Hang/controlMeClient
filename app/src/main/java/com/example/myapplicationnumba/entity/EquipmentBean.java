@@ -15,32 +15,24 @@ public class EquipmentBean implements Serializable {
     private String equManufacturer;
     //设备类型
     private Integer equTypes;
-    //设备状态（开启或关闭）
+    //设备状态（是否在线）
     private Integer equStatus;
     //设备ip地址
     private String equIp;
-    //设备备注
-    private String equNotes;
+    //设备控制点
+    private Integer equControlPoint;
 
-    public EquipmentBean() {
-    }
-
-    public EquipmentBean(String equIp) {
-        this.equIp = equIp;
-        equName = "小米电视i7745";
-        equManufacturer = "小米";
-        equTypes = 1;
-        equStatus = 0;
-    }
-
-    public EquipmentBean(String equName, Integer equId, String equManufacturer, Integer equTypes, Integer equStatus, String equIp, String equNotes) {
+    public EquipmentBean(String equName, Integer equId, String equManufacturer, Integer equTypes, Integer equStatus, String equIp, Integer equControlPoint) {
         this.equName = equName;
         this.equId = equId;
         this.equManufacturer = equManufacturer;
         this.equTypes = equTypes;
         this.equStatus = equStatus;
         this.equIp = equIp;
-        this.equNotes = equNotes;
+        this.equControlPoint = equControlPoint;
+    }
+
+    public EquipmentBean() {
     }
 
     public String getEquName() {
@@ -91,12 +83,12 @@ public class EquipmentBean implements Serializable {
         this.equIp = equIp;
     }
 
-    public String getEquNotes() {
-        return equNotes;
+    public Integer getEquControlPoint() {
+        return equControlPoint;
     }
 
-    public void setEquNotes(String equNotes) {
-        this.equNotes = equNotes;
+    public void setEquControlPoint(Integer equControlPoint) {
+        this.equControlPoint = equControlPoint;
     }
 
     @Override
@@ -108,7 +100,7 @@ public class EquipmentBean implements Serializable {
                 ", equTypes=" + equTypes +
                 ", equStatus=" + equStatus +
                 ", equIp='" + equIp + '\'' +
-                ", equNotes='" + equNotes + '\'' +
+                ", equControlPoint=" + equControlPoint +
                 '}';
     }
 }

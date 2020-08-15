@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,16 +17,22 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.myapplicationnumba.R;
+import com.example.myapplicationnumba.Server.EquipmentService;
 import com.example.myapplicationnumba.Server.UserService;
+import com.example.myapplicationnumba.Server.impl.EquipmentServiceImpl;
 import com.example.myapplicationnumba.Server.impl.UserServiceImpl;
 import com.example.myapplicationnumba.activitys.find.SettingDeviceActivity;
 import com.example.myapplicationnumba.activitys.fragment.FindFragment;
 import com.example.myapplicationnumba.activitys.fragment.ManagementFragment;
 import com.example.myapplicationnumba.activitys.fragment.MeFragment;
+import com.example.myapplicationnumba.activitys.my.LoginActivity;
 import com.example.myapplicationnumba.base.MyApplication;
+import com.example.myapplicationnumba.entity.EquipmentBean;
 import com.example.myapplicationnumba.entity.SysUser;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.util.ArrayList;
 
 /**
  * 主界面：
@@ -42,13 +50,17 @@ public  class MainActivity extends AppCompatActivity implements View.OnClickList
     protected MeFragment mMeFragment = new MeFragment();//我的
     private UserService userService;
     private SysUser sysUser;
+    private EquipmentService equipmentService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //初始化用户信息
         userService = new UserServiceImpl();
-        userService.getUser();
+        userService.getUser(this);
+        //初始化设备列表信息
+        equipmentService = new EquipmentServiceImpl();
+        equipmentService.loadMyEquipment(this);
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -128,9 +140,10 @@ public  class MainActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onResume() {
         UserServiceImpl userService = new UserServiceImpl();
-        userService.getUser();
-        sysUser = MyApplication.saveUtil.SearchUserInformation();
-        System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkkk----------"+ sysUser);
+        userService.getUser(this);
+        sysUser = MyApplication.sysUser;
+        System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkkk----------" + sysUser);
+        equipmentService.loadMyEquipment(this);
         super.onResume();
     }
 
@@ -159,6 +172,7 @@ public  class MainActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * 从二维码页面扫描返回的处理流程
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -180,4 +194,19 @@ public  class MainActivity extends AppCompatActivity implements View.OnClickList
             }
         }
     }
+
+    public Handler handler=new Handler() {
+        public void handleMessage (Message msg){
+            switch (msg.what) {
+                case 1:
+                    //当为1时，代表查询成功。更改信息
+                    mMeFragment.myNickNames.setText(MyApplication.sysUser.getUserName());
+                    break;
+                case 2:
+                    collectFragment.equipmentBeanArrayList=(ArrayList<EquipmentBean>)msg.obj;
+                    collectFragment.notifyAdapter(collectFragment.equipmentBeanArrayList);
+            }
+
+        }
+    };
 }
